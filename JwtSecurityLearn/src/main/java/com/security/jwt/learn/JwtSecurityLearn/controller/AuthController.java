@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.security.jwt.learn.JwtSecurityLearn.entity.User;
 import com.security.jwt.learn.JwtSecurityLearn.model.JWTRequest;
 import com.security.jwt.learn.JwtSecurityLearn.model.JWTResponse;
 import com.security.jwt.learn.JwtSecurityLearn.security.JwtHelper;
+import com.security.jwt.learn.JwtSecurityLearn.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,9 +32,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager manager;
 
-
     @Autowired
     private JwtHelper helper;
+    
+    @Autowired
+	private UserService userService;
 
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -69,5 +73,11 @@ public class AuthController {
     public String exceptionHandler() {
         return "Credentials Invalid !!";
     }
+    
+	@PostMapping("/create-user")
+	public User createUser(@RequestBody User user) {
+		return userService.createUser(user);
+		
+	}
 
 }
